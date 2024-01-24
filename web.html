@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        
+        <div class="bg"></div>
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+        <div class="clouds"></div>
+        <script src="js.js" defer></script>
+        <link rel="stylesheet" href="css.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gya-sacs reward estimation</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #333;
+                color: white;
+            }
+    
+            header {
+                background-color: #1a1919;
+                color: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+    
+            #results {
+                margin-top: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                min-height: 100px;
+            }
+    
+            button {
+                padding: 10px 15px;
+                background-color: #1a1919;
+                color: #ffffff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            label {
+                margin-left: 10px;
+            }
+
+            b1 {
+                margin-left: 10px;
+                font-weight: bold;
+            }
+        </style>
+        
+    </head>
+    
+<body>
+
+    <header>
+  
+        <h1>G Y A K U S A T S U - R E W A R D -  E S T I M A T I O N</h1>
+ 
+    </header>
+<br/>
+    <form id="gyaSacForm">
+        <label for="numberOfGyaSacs">Number of Gya-sacs:</label>
+        <input type="number" id="numberOfGyaSacs" name="numberOfGyaSacs" min="1" required>
+        <button type="button" onclick="calculateRewards()">Calculate Rewards</button>
+      </form>
+      <label>
+        <input type="checkbox" name="cbYen"> 2x Yen
+        <input type="checkbox" name="cbRep"> 2x Rep
+        <input type="checkbox" name="cbExp"> 2x Exp
+        <input type="checkbox" name="cbRC"> 2x RC
+      </label>
+      <div id="results"></div>
+    <script>
+        
+        function calculateRewards() {
+            const numberOfGyaSacs = parseInt(document.getElementById("numberOfGyaSacs").value, 10);
+
+            const exp = calculateExp();
+            const rep = calculateRep();
+            const yen = calculateYen();
+            const rc = calculateRC();
+            const colorCredits = calculateRange(0, 2, 2);
+            const maskCredits = calculateRange(0, 2, 2);
+
+            const isDouble = Math.random() < 0.5;
+
+            const results = document.getElementById("results");
+
+            results.innerHTML = `
+                <strong>EXP:</strong> Min: ${exp.min * numberOfGyaSacs} | Avg: ${exp.avg * numberOfGyaSacs} | Max: ${exp.max * numberOfGyaSacs} 
+                <br/>
+                <br/>
+                <strong>Rep:</strong> Min: ${rep.min * numberOfGyaSacs} | Avg: ${rep.avg * numberOfGyaSacs} | Max: ${rep.max * numberOfGyaSacs} 
+                <br/>
+                <br/>
+                <strong>Yen:</strong> Min: ${yen.min * numberOfGyaSacs} | Avg: ${yen.avg * numberOfGyaSacs} | Max: ${yen.max * numberOfGyaSacs} 
+                <br/>
+                <br/>
+                <strong>RC:</strong> Min: ${rc.min * numberOfGyaSacs} | Avg: ${rc.avg * numberOfGyaSacs} | Max: ${rc.max * numberOfGyaSacs} 
+                <br/>
+                <br/>
+                <strong>Color Credits:</strong> Min: ${colorCredits.min * numberOfGyaSacs} | Avg: ${colorCredits.avg * numberOfGyaSacs} | Max: ${colorCredits.max * numberOfGyaSacs} 
+                <br/>
+                <br/>
+                <strong>Mask Credits:</strong> Min: ${maskCredits.min * numberOfGyaSacs} | Avg: ${maskCredits.avg * numberOfGyaSacs} | Max: ${maskCredits.max * numberOfGyaSacs} 
+                <br/>
+            `;
+        }
+
+function calculateYen() {
+    var checkboxes = document.getElementsByName("cbYen");
+    var checkbox = checkboxes[0];
+
+    let yenValues, min, max, avg;
+
+    if (checkbox.checked) {
+        yenValues = [160000, 180000, 200000, 220000, 240000, 270000, 300000, 330000, 360000];
+    } 
+    else {
+        yenValues = [80000, 90000, 100000, 110000, 120000, 135000, 150000, 165000, 180000];
+    }
+
+    min = yenValues[0];
+    max = yenValues[yenValues.length - 1];
+    avg = (min + max) / 2;
+
+    return { min, avg, max };
+}
+
+function calculateRC() {
+    var checkboxes = document.getElementsByName("cbRC");
+    var checkbox = checkboxes[0];
+
+    let rcValues, min, max, avg;
+    
+    if (checkbox.checked) {
+        rcValues = [40000, 45000, 50000, 55000, 60000, 80000, 90000, 100000, 110000, 120000];
+        min = rcValues[0];
+        max = rcValues[rcValues.length - 1];
+        avg = (min + max) / 2;
+    }
+    else {
+        rcValues = [20000, 22500, 25000, 27500, 30000, 40000, 45000, 50000, 55000, 60000];
+        min = rcValues[0];
+        max = rcValues[rcValues.length - 1];
+        avg = (min + max) / 2;
+    }
+
+    return { min, avg, max };
+}
+
+
+function calculateRep() {
+    var checkboxes = document.getElementsByName("cbRep");
+    var checkbox = checkboxes[0];
+
+    let repValues, min, max, avg;
+
+    if (checkbox.checked) {
+    repValues = [1600, 1800, 2000, 2200, 2400, 2700, 3000, 3300, 3600];
+    min = repValues[0];
+    max = repValues[repValues.length - 1];
+    avg = (min + max) / 2;
+    }
+    else {
+    repValues = [800, 900, 1000, 1100, 1200, 13500, 1500, 1650, 1800];
+    min = repValues[0];
+    max = repValues[repValues.length - 1];
+    avg = (min + max) / 2;
+    }
+
+    return { min, avg, max };
+}
+
+function calculateExp() {
+    var checkboxes = document.getElementsByName("cbExp");
+    var checkbox = checkboxes[0];
+
+    let expValues, min, max, avg;
+
+    if (checkbox.checked) {
+    expValues = [4000, 4500, 5000, 5500, 6000, 6750, 7500, 8250, 9000];
+    min = expValues[0];
+    max = expValues[expValues.length - 1];
+    avg = (min + max) / 2;
+    }
+    else {
+    expValues = [2000, 2250, 2500, 2750, 3000, 3375, 3525, 4125, 4500];
+    min = expValues[0];
+    max = expValues[expValues.length - 1];
+    avg = (min + max) / 2;
+    }
+
+    return { min, avg, max };
+}
+
+function calculateRange(min, max, increment) {
+    const avg = (min + max) / 4;
+    return { min, avg, max };
+}
+
+    </script>
+    
+    <br/>
+    
+<b1>Note: These are only an approximation of rewards you may receive when dissecting your Gya-sacs.</b1>
+<br/>
+<b1>Color credit and mask credit rewards are assuming you don't get the 50% chance double.</b1>
+
+
+</body>
+
+</html>
